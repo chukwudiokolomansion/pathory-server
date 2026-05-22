@@ -3,7 +3,8 @@ const { Schema, model } = require("mongoose");
 const plannerSchema = new Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: [true, "User ID is required"],
     },
 

@@ -3,7 +3,8 @@ const { Schema, model } = require("mongoose");
 const activitySchema = new Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
 
@@ -70,12 +71,12 @@ const activitySchema = new Schema(
       },
     },
 
-    images: {
+    image: {
   type: [String],
   default: [],
 },
 
-    videos: {
+    video: {
   type: [String],
   default: [],
 },
