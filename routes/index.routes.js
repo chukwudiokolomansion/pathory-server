@@ -1,6 +1,13 @@
 const router = require("express").Router();
 
 // ℹ️ Organize and connect all your route files here.
+router.get("/test", (req, res, next) => {
+ try {
+  res.json({ message: "all is good you are connecting to " });
+} catch (err) {
+    console.log(error);
+  }
+});
 const authRoutes = require("./auth.routes");
 router.use("/auth", authRoutes);
 

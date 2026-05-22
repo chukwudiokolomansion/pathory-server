@@ -5,13 +5,7 @@ const Planner = require("../models/Planner.model");
 
 
 // Route: GET /planners
-router.get("/", (req, res) => {
-  try {
-    res.json({ message: "all is good you are connecting to " });
-  } catch (err) {
-    console.log(error);
-  }
-});
+
 router.get("/planners", async (req, res) => {
   try {
     const response = await Activity.find();

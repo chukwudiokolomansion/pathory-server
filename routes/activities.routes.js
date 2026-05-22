@@ -4,13 +4,7 @@ const Activity = require("../models/Activity.model");
 
 
 // Route: GET /activities
-router.get("/", (req, res) => {
-  try {
-    res.json({ message: "all is good you are connecting to " });
-  } catch (err) {
-    console.log(error);
-  }
-});
+
 router.get("/activities", async (req, res) => {
   try {
     const response = await Activity.find();
