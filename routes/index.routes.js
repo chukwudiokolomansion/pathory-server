@@ -4,10 +4,10 @@ const router = require("express").Router();
 const authRoutes = require("./auth.routes");
 router.use("/auth", authRoutes);
 
-const activityRoutes = require("./activities.routes")
-router.use("/activities, activityRoutes")
+const activityRoutes = require("./activities.routes");
+router.use("/activity", activityRoutes);
 
-const plannerRoutes = require("./planners.routes")
-router.use("/planner, plannerRoutes")
+const plannerRoutes = require("./planners.routes");
+router.use("/planner", plannerRoutes);
 
 module.exports = router;

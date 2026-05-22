@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-const activitySchema = new Schema(
+const activitySchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -101,6 +101,5 @@ const activitySchema = new Schema(
 );
 
 
-const Activity = model("Activity", activitySchema);
 
-module.exports = Activity;
+module.exports = mongoose.model("Activity", activitySchema);

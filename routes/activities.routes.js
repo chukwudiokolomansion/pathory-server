@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const Activity = require("../models/Activity.model");
+
 
 // Route: GET /activities
 router.get("/", (req, res) => {

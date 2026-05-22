@@ -1,5 +1,7 @@
 const router = require("express").Router();
 
+const Planner = require("../models/Planner.model");
+
 
 
 // Route: GET /planners

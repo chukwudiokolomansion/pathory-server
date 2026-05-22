@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-const plannerSchema = new Schema(
+const plannerSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -63,6 +63,5 @@ const plannerSchema = new Schema(
   }
 );
 
-const Planner = model("Planner", plannerSchema);
 
-module.exports = Planner;
+module.exports = mongoose.model("Planner", plannerSchema);
