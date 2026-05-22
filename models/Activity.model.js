@@ -1,0 +1,105 @@
+const { Schema, model } = require("mongoose");
+
+const activitySchema = new Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+
+    title: {
+      type: String,
+      required: [true, "Title is required"],
+      trim: true,
+      minlength: [3, "Title must be at least 3 characters"],
+      maxlength: [100, "Title cannot exceed 100 characters"],
+    },
+
+    aiDescription: {
+      type: String,
+      trim: true,
+      maxlength: [1000, "Description too long"],
+    },
+
+    activityType: {
+      type: String,
+      required: true,
+      enum: [
+        "travel",
+        "food",
+        "fitness",
+        "study",
+        "social",
+        "adventure",
+        "work",
+        "other",
+      ],
+    },
+
+    location: {
+      lat: {
+        type: Number,
+        required: true,
+        min: [-90, "Latitude cannot be below -90"],
+        max: [90, "Latitude cannot exceed 90"],
+      },
+
+      lng: {
+        type: Number,
+        required: true,
+        min: [-180, "Longitude cannot be below -180"],
+        max: [180, "Longitude cannot exceed 180"],
+      },
+
+      city: {
+        type: String,
+        trim: true,
+        maxlength: 100,
+      },
+
+      country: {
+        type: String,
+        trim: true,
+        maxlength: 100,
+      },
+
+      address: {
+        type: String,
+        trim: true,
+        maxlength: 300,
+      },
+    },
+
+    images: {
+  type: [String],
+  default: [],
+},
+
+    videos: {
+  type: [String],
+  default: [],
+},
+    tags: [
+      {
+        type: String,
+        trim: true,
+        lowercase: true,
+      },
+    ],
+
+    weather: {
+      type: String,
+      trim: true,
+      maxlength: 100,
+    },
+  },
+
+  {
+    timestamps: true,
+  }
+);
+
+
+const Activity = model("Activity", activitySchema);
+
+module.exports = Activity;
