@@ -80,7 +80,7 @@ const activitySchema = new mongoose.Schema(
   type: [String],
   default: [],
 },
-    tags: [
+    tag: [
       {
         type: String,
         trim: true,

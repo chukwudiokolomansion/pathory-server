@@ -5,7 +5,7 @@ const Activity = require("../models/Activity.model");
 
 // Route: GET /activities
 
-router.get("/activities", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const response = await Activity.find();
     console.log("Retrieved activities ->", response);
@@ -16,7 +16,7 @@ router.get("/activities", async (req, res) => {
 });
 
 // this is to create 
-router.post("/activities", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const newActivity = {
       title: req.body.title,
@@ -25,7 +25,7 @@ router.post("/activities", async (req, res) => {
       location: req.body.location,
       image: req.body.image,
       video: req.body.video, 
-      tags: req.body.tags,
+      tag: req.body.tag,
       weather: req.body.weather,
     };
     const response = await Activity.create(newActivity);
@@ -37,7 +37,7 @@ router.post("/activities", async (req, res) => {
 });
 
 // this is to update 
-router.patch("/activities/:activityId", async (req, res) => {
+router.patch("/:userId", async (req, res) => {
   try {
     const updatedActivity = {
       title: req.body.title,
@@ -50,7 +50,7 @@ router.patch("/activities/:activityId", async (req, res) => {
       weather: req.body.weather,
     };
     const response = await Activity.findByIdAndUpdate(
-      req.params.activityId,
+      req.params.userId,
       updatedActivity,
       { new: true },
     );
@@ -62,9 +62,9 @@ router.patch("/activities/:activityId", async (req, res) => {
 });
 
 // this is to delete 
-router.delete("/activities/:activityId", async (req, res) => {
+router.delete("/:userId", async (req, res) => {
   try {
-    const response = await Activity.findByIdAndDelete(req.params.activityId);
+    const response = await Activity.findByIdAndDelete(req.params.userId);
     res.sendStatus(200);
     console.log("activity deleted");
   } catch (error) {

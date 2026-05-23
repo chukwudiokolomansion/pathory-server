@@ -6,10 +6,10 @@ const Planner = require("../models/Planner.model");
 
 // Route: GET /planners
 
-router.get("/planners", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const response = await Activity.find();
-    console.log("Retrieved activities ->", response);
+    const response = await Planner.find();
+    console.log("Retrieved planners ->", response);
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
@@ -17,7 +17,7 @@ router.get("/planners", async (req, res) => {
 });
 
 // this is to create
-router.post("/planners", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const newPlanner = {
       title: req.body.title,
@@ -38,7 +38,7 @@ router.post("/planners", async (req, res) => {
 });
 
 // this is to update 
-router.patch("/planners/:plannerId", async (req, res) => {
+router.patch("/:userId", async (req, res) => {
   try {
     const updatedPlanner = {
       title: req.body.title,
@@ -50,7 +50,7 @@ router.patch("/planners/:plannerId", async (req, res) => {
       status: req.body.status,
     };
     const response = await Planner.findByIdAndUpdate(
-      req.params.plannerId,
+      req.params.userId,
       updatedPlanner,
       { new: true },
     );
@@ -62,9 +62,9 @@ router.patch("/planners/:plannerId", async (req, res) => {
 });
 
 // this is to delete 
-router.delete("/planners/:plannerId", async (req, res) => {
+router.delete("/:userId", async (req, res) => {
   try {
-    const response = await Planner.findByIdAndDelete(req.params.plannerId);
+    const response = await Planner.findByIdAndDelete(req.params.userId);
     res.sendStatus(200);
     console.log("planner deleted");
   } catch (error) {
