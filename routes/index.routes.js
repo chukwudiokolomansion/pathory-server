@@ -8,6 +8,13 @@ router.get("/test", (req, res, next) => {
     console.log(error);
   }
 });
+
+// ...
+
+const uploadRoutes = require("./upload.routes");
+router.use("/upload", uploadRoutes);
+
+// ...
 const authRoutes = require("./auth.routes");
 router.use("/auth", authRoutes);
 
