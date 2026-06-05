@@ -11,10 +11,7 @@ router.get("/", async (req, res, next) => {
     console.log("Retrieved activities ->", response);
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: error.message
-    });
+    console.log(error);   
   }
 });
 
@@ -23,7 +20,6 @@ router.post("/", async (req, res) => {
   try {
 
     const newActivity = {
-      userId: req.body.userId,
       title: req.body.title,
       aiDescription: req.body.aiDescription,
       activityType: req.body.activityType,
@@ -37,14 +33,9 @@ router.post("/", async (req, res) => {
     const response = await Activity.create(newActivity);
 
     res.status(201).json(response);
-
   } catch (error) {
-
     console.log(error);
-
-    res.status(500).json({
-      message: error.message
-    });
+   
   }
 });
 
@@ -53,7 +44,6 @@ router.patch("/:activityId", async (req, res) => {
   try {
 
     const updatedActivity = {
-      userId: req.body.userId,
       title: req.body.title,
       aiDescription: req.body.aiDescription,
       activityType: req.body.activityType,
@@ -74,16 +64,10 @@ router.patch("/:activityId", async (req, res) => {
     );
 
     console.log("activity updated");
-
     res.status(200).json(response);
 
   } catch (error) {
-
-    console.log(error);
-
-    res.status(500).json({
-      message: error.message
-    });
+    console.log(error);    
   }
 });
 
@@ -95,7 +79,6 @@ router.delete("/:activityId", async (req, res) => {
     console.log("activity deleted");
   } catch (error) {
     console.log(error);
-    res.status(500).json({message: error.message});
   }
 });
 

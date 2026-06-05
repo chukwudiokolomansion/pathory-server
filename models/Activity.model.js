@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema(
-  {
-    userId: {
+  {   
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-
-    title: {
+    
+     title: {
       type: String,
       required: [true, "Title is required"],
       trim: true,

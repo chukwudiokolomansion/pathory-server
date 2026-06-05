@@ -17,6 +17,14 @@ const userSchema = new Schema(
       required: [true, 'Password is required.']
     },
     username: String,
+    role: {
+      type: String,
+      enum: {
+        values: ["user", "admin"],
+        message: "What are you 'user' or 'admin'",
+      },
+      default: "user",
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    

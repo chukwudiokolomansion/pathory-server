@@ -18,10 +18,16 @@ router.use("/upload", uploadRoutes);
 const authRoutes = require("./auth.routes");
 router.use("/auth", authRoutes);
 
-const activityRoutes = require("./activities.routes");
-router.use("/activities", activityRoutes);
+
+const privateExampleRoutes = require("./example-private-routes.routes")
+router.use("/private-example", privateExampleRoutes)
 
 const plannerRoutes = require("./planners.routes");
 router.use("/planners", plannerRoutes);
+
+const activityRoutes = require("./activities.routes");
+router.use("/activities", activityRoutes);
+
+
 
 module.exports = router;

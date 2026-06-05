@@ -13,9 +13,6 @@ router.get("/", async (req, res, next) => {
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-    message: error.message
-    });
   }
 });
 
@@ -24,14 +21,13 @@ router.post("/", async (req, res) => {
   try {
 
     const newPlanner = {
-      userId: req.body.userId,
       title: req.body.title,
       description: req.body.description,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       reminders: req.body.reminders,
       destination: req.body.destination,
-      status: req.body.stuats,
+      status: req.body.status,
     };
 
     const response = await Planner.create(newPlanner);
@@ -41,11 +37,7 @@ router.post("/", async (req, res) => {
     res.status(200).json(response);
 
   } catch (error) {
-
     console.log(error);
-res.status(500).json({
-  message: error.message
-    });
   }
 });
 
@@ -53,8 +45,7 @@ res.status(500).json({
 router.patch("/:plannerId", async (req, res) => {
   try {
 
-    const updatedPlanner = {
-      userId: req.body.userId,
+    const updatedPlanner = {  
       title: req.body.title,
       description: req.body.description,
       startDate: req.body.startDate,
@@ -71,15 +62,11 @@ router.patch("/:plannerId", async (req, res) => {
     );
 
     console.log("planner updated");
-
     res.status(200).json(response);
 
   } catch (error) {
-
     console.log(error); 
-    res.status(500).json({
-      message: error.message
-    });  
+     
   }
 });
    
@@ -91,9 +78,6 @@ router.delete("/:plannerId", async (req, res) => {
     console.log("planner deleted");
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      message: error.message
-    });
   }
 });
 

@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
 const plannerSchema = new mongoose.Schema(
-  {
-    userId: {
+  {  
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "User ID is required"],
+      required: true,
     },
 
-    title: {
+        title: {
       type: String,
       required: [true, "Title is required"],
       trim: true,
@@ -62,6 +62,5 @@ const plannerSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 
 module.exports = mongoose.model("Planner", plannerSchema);
