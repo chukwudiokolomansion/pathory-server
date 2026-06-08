@@ -14,6 +14,22 @@ router.get("/", async (req, res, next) => {
     console.log(error);   
   }
 });
+//get one activity
+router.get("/:activityId", async (req, res) => {
+  try {
+    const response = await Activity.findById(req.params.activityId);
+
+    if (!activity) {
+      return res.status(404).json({
+        message: "Activity not found",
+      });
+    }
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // this is to create 
 router.post("/", async (req, res) => {

@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// this is to create
+// this is to create.../api/planners
 router.post("/", async (req, res) => {
   try {
 
@@ -67,6 +67,22 @@ router.patch("/:plannerId", async (req, res) => {
   } catch (error) {
     console.log(error); 
      
+  }
+});
+// GET ONE PLANNER
+router.get("/:plannerId", async (req, res) => {
+  try {
+    const planner = await Planner.findById(req.params.plannerId);
+
+    if (!planner) {
+      return res.status(404).json({
+        message: "Planner not found",
+      });
+    }
+
+    res.status(200).json(planner);
+  } catch (error) {
+    console.log(error);
   }
 });
    
