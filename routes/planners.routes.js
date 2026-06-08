@@ -1,12 +1,13 @@
 const router = require("express").Router();
 
 const Planner = require("../models/Planner.model");
+const { verifyToken } = require("../middlewares/auth.middlewares")
 
 
 
 // Route: GET /planners
 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyToken, async (req, res, next) => {
   try {
     const response = await Planner.find();
     console.log("Retrieved planners ->", response);
@@ -17,32 +18,33 @@ router.get("/", async (req, res, next) => {
 });
 
 // this is to create.../api/planners
-router.post("/", async (req, res) => {
-  try {
 
-    const newPlanner = {
+router.post("/", verifyToken, async (req, res) => {
+  try {
+    const planner = await Planner.create({
+      user: req.payload._id,
+      activity: req.body.activity,
       title: req.body.title,
       description: req.body.description,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
-      reminders: req.body.reminders,
+      reminders: req.body.reminders || [],
       destination: req.body.destination,
-      status: req.body.status,
-    };
+      status: req.body.status || "pending",
+    });
 
-    const response = await Planner.create(newPlanner);
-
-    console.log("new planner created");
-
-    res.status(200).json(response);
-
+    res.status(201).json(planner);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+
+    res.status(400).json({
+      message: error.message,
+    });
   }
 });
 
 // this is to update 
-router.patch("/:plannerId", async (req, res) => {
+router.patch("/:plannerId", verifyToken, async (req, res) => {
   try {
 
     const updatedPlanner = {  
@@ -70,9 +72,9 @@ router.patch("/:plannerId", async (req, res) => {
   }
 });
 // GET ONE PLANNER
-router.get("/:plannerId", async (req, res) => {
+router.get("/:plannerId", verifyToken, async (req, res) => {
   try {
-    const planner = await Planner.findById(req.params.plannerId);
+    const response = await Planner.findById(req.params.plannerId);
 
     if (!planner) {
       return res.status(404).json({
@@ -80,14 +82,14 @@ router.get("/:plannerId", async (req, res) => {
       });
     }
 
-    res.status(200).json(planner);
+    res.status(200).json(response);
   } catch (error) {
     console.log(error);
   }
 });
    
 // this is to delete 
-router.delete("/:plannerId", async (req, res) => {
+router.delete("/:plannerId", verifyToken, async (req, res) => {
   try {
     const response = await Planner.findByIdAndDelete(req.params.plannerId);
     res.sendStatus(200);
@@ -95,6 +97,7 @@ router.delete("/:plannerId", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+  
 });
 
 module.exports = router;
