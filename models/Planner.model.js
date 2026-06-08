@@ -7,6 +7,11 @@ const plannerSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    activity: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Activity",
+      required: true,
+    },
 
         title: {
       type: String,
