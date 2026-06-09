@@ -1,11 +1,12 @@
 const router = require("express").Router();
 
 const Activity = require("../models/Activity.model");
+const { verifyToken } = require("../middlewares/auth.middlewares")
 
 
 // Route: GET /activities
 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyToken, async (req, res, next) => {
   try {
     const response = await Activity.find();
     console.log("Retrieved activities ->", response);
@@ -16,7 +17,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 //get one activity
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
   try {
     const response = await Activity.findById(req.params.id);
 
@@ -34,7 +35,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // this is to create 
-router.post("/", async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
   try {
 
   const newActivity = {
@@ -59,7 +60,7 @@ router.post("/", async (req, res) => {
 });
 
 // this is to update 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", verifyToken, async (req, res) => {
   try {
 
     const updatedActivity = {
@@ -93,7 +94,7 @@ router.patch("/:id", async (req, res) => {
 });
 
 // this is to delete 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const response = await Activity.findByIdAndDelete(req.params.id);
     res.sendStatus(200);
