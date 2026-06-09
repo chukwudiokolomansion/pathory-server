@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-// ℹ️ Organize and connect all your route files here.
+//  all your route files
 router.get("/test", (req, res, next) => {
  try {
   res.json({ message: "all is good you are connecting to " });
@@ -9,7 +9,6 @@ router.get("/test", (req, res, next) => {
   }
 });
 
-// ...
 
 const uploadRoutes = require("./upload.routes");
 router.use("/upload", uploadRoutes);

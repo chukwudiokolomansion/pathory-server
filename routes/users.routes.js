@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs")
 
 router.get("/profile", verifyToken, async (req, res, next) => {
     try {
-        /*const user = await User.findById(req.payload._id)*/
+      
         const user = await User.findById(req.payload._id);
         console.log(user)
         res.status(200).json(user)

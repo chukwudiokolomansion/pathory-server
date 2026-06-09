@@ -44,39 +44,42 @@ router.post("/", verifyToken, async (req, res) => {
 });
 
 // this is to update 
-router.patch("/:plannerId", verifyToken, async (req, res) => {
+router.patch("/:id", verifyToken, async (req, res) => {
   try {
+    const planner = await Planner.findById(req.params.id);
 
-    const updatedPlanner = {  
-      title: req.body.title,
-      description: req.body.description,
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      reminders: req.body.reminders,
-      destination: req.body.destination,
-      status: req.body.status,
-    };
+    if (!planner) {
+      return res.status(404).json({
+        message: "Planner not found",
+      });
+    }
 
-    const response = await Planner.findByIdAndUpdate(
-      req.params.plannerId,
-      updatedPlanner,
-      { new: true, runValidators: true }
+    if (planner.user.toString() !== req.payload._id) {
+      return res.status(403).json({
+        message: "Not authorized",
+      });
+    }
+
+    const updatedPlanner = await Planner.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
     );
 
-    console.log("planner updated");
-    res.status(200).json(response);
-
+    res.status(200).json(updatedPlanner);
   } catch (error) {
-    console.log(error); 
-     
+    console.error(error);
   }
 });
 // GET ONE PLANNER
-router.get("/:plannerId", verifyToken, async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
   try {
-    const response = await Planner.findById(req.params.plannerId);
+    const response = await Planner.findById(req.params.id);
 
-    if (!planner) {
+    if (!response) {
       return res.status(404).json({
         message: "Planner not found",
       });
@@ -89,9 +92,9 @@ router.get("/:plannerId", verifyToken, async (req, res) => {
 });
    
 // this is to delete 
-router.delete("/:plannerId", verifyToken, async (req, res) => {
+router.delete("/:id", verifyToken, async (req, res) => {
   try {
-    const response = await Planner.findByIdAndDelete(req.params.plannerId);
+    const response = await Planner.findByIdAndDelete(req.params.id);
     res.sendStatus(200);
     console.log("planner deleted");
   } catch (error) {

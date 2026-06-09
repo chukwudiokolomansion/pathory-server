@@ -11,15 +11,16 @@ router.get("/", async (req, res, next) => {
     console.log("Retrieved activities ->", response);
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);   
+    console.log(error); 
+    res.status(400).json(error);  
   }
 });
 //get one activity
-router.get("/:activityId", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const response = await Activity.findById(req.params.activityId);
+    const response = await Activity.findById(req.params.id);
 
-    if (!activity) {
+    if (!response) {
       return res.status(404).json({
         message: "Activity not found",
       });
@@ -28,6 +29,7 @@ router.get("/:activityId", async (req, res) => {
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
+    res.status(400).json(error);
   }
 });
 
@@ -35,28 +37,29 @@ router.get("/:activityId", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
 
-    const newActivity = {
-      title: req.body.title,
-      aiDescription: req.body.aiDescription,
-      activityType: req.body.activityType,
-      location: req.body.location,
-      image: req.body.image,
-      video: req.body.video,
-      tags: req.body.tags,
-      weather: req.body.weather,
-    };
+  const newActivity = {
+  title: req.body.title,
+  aiDescription: req.body.aiDescription,
+  activityType: req.body.activityType,
+  location: req.body.location,
+  image: req.body.image,
+  video: req.body.video,
+  tag: req.body.tag,
+  weather: req.body.weather,
+};
 
     const response = await Activity.create(newActivity);
 
     res.status(201).json(response);
   } catch (error) {
     console.log(error);
+    res.status(400).json(error);
    
   }
 });
 
 // this is to update 
-router.patch("/:activityId", async (req, res) => {
+router.patch("/:id", async (req, res) => {
   try {
 
     const updatedActivity = {
@@ -71,7 +74,7 @@ router.patch("/:activityId", async (req, res) => {
     };
 
     const response = await Activity.findByIdAndUpdate(
-      req.params.activityId,
+      req.params.id,
       updatedActivity,
       {
         new: true,
@@ -83,18 +86,21 @@ router.patch("/:activityId", async (req, res) => {
     res.status(200).json(response);
 
   } catch (error) {
-    console.log(error);    
+    console.log(error); 
+     res.status(400).json(error);
+   
   }
 });
 
 // this is to delete 
-router.delete("/:activityId", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
-    const response = await Activity.findByIdAndDelete(req.params.activityId);
+    const response = await Activity.findByIdAndDelete(req.params.id);
     res.sendStatus(200);
     console.log("activity deleted");
   } catch (error) {
     console.log(error);
+    res.status(400).json(error);
   }
 });
 

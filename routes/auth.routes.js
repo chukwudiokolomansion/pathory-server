@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-// here is all our auth routes...
+// here is all auth routes...
 const User = require("../models/User.model")
 
 const bcrypt = require("bcryptjs")
@@ -18,7 +18,7 @@ router.post("/signup", async (req, res, next) => {
   // both email and password are mandatory
   if (!email || !password) {
     res.status(400).json({errorMessage: "Both email and password are mandatory"})
-    return // this means, stop executing the route
+    return 
   }
   
   // password strong enough
@@ -26,20 +26,16 @@ router.post("/signup", async (req, res, next) => {
 
   if (passwordRegex.test(password) === false) {
     res.status(400).json({errorMessage: "Password is not strong enough. It needs at least 8 characters, one uppercase, one lowercase and one number"})
-    return // this means, stop executing the route
+    return 
   }
   
-  // email format should be correct. xxx-@xxx-.xx-
-  // ... done finding the proper regex
-
-  // extra security (sending an email for email verification). Use packages like nodemailer, mailchimp and brevo.
-  
+ 
   try {
     // email should be unique
     const foundUser = await User.findOne({ email: email }) // either the user or null
     if (foundUser) {
       res.status(400).json({errorMessage: "user already created with that email"})
-      return // this means, stop executing the route
+      return 
     }
 
     const hashedPassword = await bcrypt.hash(password, 12)
@@ -59,41 +55,41 @@ router.post("/signup", async (req, res, next) => {
   }
 })
 
-// POST "/api/auth/login" => receiving credentials from the user, authenticating them and sending the token
+// POST "/api/auth/login"
 router.post("/login", async (req, res, next) => {
 
   console.log(req.body)
   const { email, password } = req.body
 
-  // we need both credentials
+  
     if (!email || !password) {
     res.status(400).json({ errorMessage: "Both email and password are mandatory" })
-    return // this means, stop executing the route
+    return 
   }
 
   try {
     
-    // the email needs to be in the DB
-    const foundUser = await User.findOne({ email: email }) // either the user or null
+    
+    const foundUser = await User.findOne({ email: email })
     console.log(foundUser)
     if (!foundUser) {
       res.status(400).json({errorMessage: "user not found with that email, please signup first"})
-      return // this means, stop executing the route
+      return 
     }
 
-    // the password should match
+    
     const isPasswordMatch = await bcrypt.compare(password, foundUser.password)
     if (!isPasswordMatch) {
       res.status(400).json({errorMessage: "the password is not correct"})
-      return // this means, stop executing the route
+      return 
     }
 
-    // we will have authenticated the user and we can create that token...
+   
 
     const payload = {
       _id: foundUser._id,
       email: foundUser.email,
-      // if we had roles, then they would need to be here.
+      // roles,.
       role: foundUser.role
     }
 
@@ -110,7 +106,7 @@ router.post("/login", async (req, res, next) => {
   }
 })
 
-// GET "/api/auth/verify" => Only for frontend purposes. So the frontend know who the owner of the token is.
+// GET "/api/auth/verify" 
 router.get("/verify", verifyToken, (req, res) => {
   res.status(200).json({ payload: req.payload })
 })
